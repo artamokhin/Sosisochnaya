@@ -42,10 +42,8 @@ pipeline {
             }
         }
 
-        stage('Slack POST') {
-            steps {
-            	curl -X POST -H 'Content-type: application/json' --data '{"text":"**Артамохин Александр** собрал приложение."}' https://***REMOVED***
-            }
+        {
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"**Артамохин Александр** собрал приложение."}' https://***REMOVED***
         }
     }
 }
