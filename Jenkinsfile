@@ -1,27 +1,27 @@
 pipeline {
-    agent any // Выбираем Jenkins агента, на котором будет происходить сборка: нам нужен любой
+    agent any // Р’С‹Р±РёСЂР°РµРј Jenkins Р°РіРµРЅС‚Р°, РЅР° РєРѕС‚РѕСЂРѕРј Р±СѓРґРµС‚ РїСЂРѕРёСЃС…РѕРґРёС‚СЊ СЃР±РѕСЂРєР°: РЅР°Рј РЅСѓР¶РµРЅ Р»СЋР±РѕР№
 
     triggers {
-        pollSCM('H/5 * * * *') // Запускать будем автоматически по крону примерно раз в 5 минут
+        pollSCM('H/5 * * * *') // Р—Р°РїСѓСЃРєР°С‚СЊ Р±СѓРґРµРј Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРѕ РєСЂРѕРЅСѓ РїСЂРёРјРµСЂРЅРѕ СЂР°Р· РІ 5 РјРёРЅСѓС‚
     }
 
     tools {
-        maven 'maven-3.8.1' // Для сборки бэкенда нужен Maven
-        jdk 'jdk16' // И Java Developer Kit нужной версии
-        nodejs 'node-16' // А NodeJS нужен для фронта
+        maven 'maven-3.8.1' // Р”Р»СЏ СЃР±РѕСЂРєРё Р±СЌРєРµРЅРґР° РЅСѓР¶РµРЅ Maven
+        jdk 'jdk16' // Р Java Developer Kit РЅСѓР¶РЅРѕР№ РІРµСЂСЃРёРё
+        nodejs 'node-16' // Рђ NodeJS РЅСѓР¶РµРЅ РґР»СЏ С„СЂРѕРЅС‚Р°
     }
 
     stages {
         stage('Build & Test backend') {
             steps {
-                dir("backend") { // Переходим в папку backend
-                    sh 'mvn package' // Собираем мавеном бэкенд
+                dir("backend") { // РџРµСЂРµС…РѕРґРёРј РІ РїР°РїРєСѓ backend
+                    sh 'mvn package' // РЎРѕР±РёСЂР°РµРј РјР°РІРµРЅРѕРј Р±СЌРєРµРЅРґ
                 }
             }
 
             post {
                 success {
-                    junit 'backend/target/surefire-reports/**/*.xml' // Передадим результаты тестов в Jenkins
+                    junit 'backend/target/surefire-reports/**/*.xml' // РџРµСЂРµРґР°РґРёРј СЂРµР·СѓР»СЊС‚Р°С‚С‹ С‚РµСЃС‚РѕРІ РІ Jenkins
                 }
             }
         }
@@ -29,8 +29,8 @@ pipeline {
         stage('Build frontend') {
             steps {
                 dir("frontend") {
-                    sh 'npm install' // Для фронта сначала загрузим все сторонние зависимости
-                    sh 'npm run build' // Запустим сборку
+                    sh 'npm install' // Р”Р»СЏ С„СЂРѕРЅС‚Р° СЃРЅР°С‡Р°Р»Р° Р·Р°РіСЂСѓР·РёРј РІСЃРµ СЃС‚РѕСЂРѕРЅРЅРёРµ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё
+                    sh 'npm run build' // Р—Р°РїСѓСЃС‚РёРј СЃР±РѕСЂРєСѓ
                 }
             }
         }
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 archiveArtifacts(artifacts: 'backend/target/sausage-store-0.0.1-SNAPSHOT.jar')
                 archiveArtifacts(artifacts: 'frontend/dist/frontend/*')
-				sh "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'**Артамохин Александр** собрал приложение.\'}\" https://***REMOVED***"
+		sh "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'**РђСЂС‚Р°РјРѕС…РёРЅ РђР»РµРєСЃР°РЅРґСЂ** СЃРѕР±СЂР°Р» РїСЂРёР»РѕР¶РµРЅРёРµ.\'}\" https://***REMOVED***"
             }
         }
 
