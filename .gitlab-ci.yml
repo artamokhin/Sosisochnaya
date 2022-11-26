@@ -33,8 +33,9 @@ slack-notification-backend:
     changes:
     - backend/*
   script:
-    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***
-    - build-backend-code-job"
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
+  needs:
+    - build-backend-code-job
 
 slack-notification-frontend:
   stage: notify
@@ -42,7 +43,6 @@ slack-notification-frontend:
     changes:
     - frontend/*
   script:
-    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***
-    - build-backend-code-job"
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
   needs:
-    - build-frontend-code-job
+    - build-frontend-code-job 
