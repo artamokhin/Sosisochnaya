@@ -1,6 +1,5 @@
 stages:
   - build
-  - notify
 
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
