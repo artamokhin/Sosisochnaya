@@ -29,7 +29,7 @@ build-frontend-code-job:
 
 slack-notification-frontend:
   stage: notify
-    only:
+  only:
     changes:
     - frontend/*
   script:
@@ -39,7 +39,7 @@ slack-notification-frontend:
 
 slack-notification-backend:
   stage: notify
-    only:
+  only:
     changes:
     - backend/*
   script:
