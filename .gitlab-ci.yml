@@ -1,5 +1,6 @@
 stages:
   - build
+  - notify
 
 build-code-job:  # задача с именем build-code-job
   stage: build   # этап build
@@ -21,3 +22,12 @@ build-code-job:  # задача с именем build-code-job
     paths:
       - sausage-store-0.0.1/public_html  # сохранение собранного фронтенда как артефакта
       - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакта
+      
+ slack-notification:
+  stage: notify
+  only:
+    changes:
+    - backend/*
+    - frontend/*
+  script:
+    - curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал приложение, скачать артефакты можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***
