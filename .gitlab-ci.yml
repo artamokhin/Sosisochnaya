@@ -2,32 +2,45 @@ stages:
   - build
   - notify
 
-build-code-job:  # задача с именем build-code-job
-  stage: build   # этап build
-  only: # запуск этого шага только при изменениях в директориях backend и frontend
+build-backend-code-job:
+  stage: build  
+  only:
     changes:
     - backend/*
-    - frontend/*
-  script:        # объявление скрипта
+  script:
     - cd backend
-    - mvn package  # запуск сборки кода
-    - cd ../frontend
-    - npm install # загрузка всех сторонних зависимостей
-    - npm run build # запуск сборки кода
-    - cd ..
-    - mkdir sausage-store-0.0.1  # создание директории, в которую копируются артефакты. Это нужно для организации удобной структуры архива
-    - cp backend/target/sausage-store-0.0.1-SNAPSHOT.jar sausage-store-0.0.1/sausage-store-0.0.1.jar # копирование собранного бэкенда
-    - cp -r frontend/dist/frontend sausage-store-0.0.1/public_html # копирование собранного фронтенда
-  artifacts: # блок, отвечающий за сохранение файлов как артефактов в Gitlab
+    - mvn package
+  artifacts:
     paths:
-      - sausage-store-0.0.1/public_html  # сохранение собранного фронтенда как артефакта
-      - sausage-store-0.0.1/sausage-store-0.0.1.jar # сохранение собранного бэкенда как артефакта 
-      
-slack-notification:
+      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
+
+build-frontend-code-job:
+  stage: build  
+  only:
+    changes:
+    - frontend/*
+  script:        
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend 
+
+slack-notification-frontend:
   stage: notify
   script:
-    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал приложение, скачать артефакты можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
   needs:
-    - build-code-job
+    - build-frontend-code-job
 
+slack-notification-backend:
+  stage: notify
+  only:
+    changes:
+    - backend/*
+  script:
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакт можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
+  needs:
+    - build-backend-code-job
 
