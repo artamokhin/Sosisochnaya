@@ -1,0 +1,49 @@
+stages:
+  - build
+  - notify
+
+build-backend-code-job:
+  stage: build  
+  only:
+    changes:
+    - backend/*
+  script:
+    - cd backend
+    - mvn package
+  artifacts:
+    paths:
+      - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
+
+build-frontend-code-job:
+  stage: build  
+  only:
+    changes:
+    - frontend/*
+  script:        
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend 
+
+slack-notification-frontend:
+  stage: notify
+  only:
+    changes:
+    - frontend/*
+  script:
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакты можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
+  needs:
+    - build-frontend-code-job
+
+slack-notification-backend:
+  stage: notify
+  only:
+    changes:
+    - backend/*
+  script:
+    - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=***REMOVED***\'}\" https://***REMOVED***"
+  needs:
+    - build-backend-code-job
+
