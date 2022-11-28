@@ -20,6 +20,8 @@ build-backend-code-job:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
 
 spotbugs-sast:
+  dependencies:
+    - build-backend-code-job
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
