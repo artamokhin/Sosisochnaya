@@ -19,24 +19,26 @@ build-backend-code-job:
       - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
 
-#build-frontend-code-job:
-#  stage: build  
-#  only:
-#    changes:
-#    - frontend/*
-#  script:        
-#    - cd frontend
-#    - npm install
-#    - npm run build
-#  artifacts:
-#    paths:
-#      - frontend/dist/frontend  
-
 spotbugs-sast:
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository # не забудьте при сборке также указывать эту папку через аргумент -Dmaven.repo.local           
+    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository # не забудьте при сборке также указывать эту папку через аргумент -Dmaven.repo.local       
+
+build-frontend-code-job:
+  stage: build  
+  only:
+    changes:
+    - frontend/*
+  script:        
+    - cd frontend
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - frontend/dist/frontend  
+
+          
 
 #slack-notification-frontend:
 #  stage: notify
