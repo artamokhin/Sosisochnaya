@@ -41,6 +41,8 @@ build-frontend-code-job:
       - frontend/dist/frontend  
 
 sonarqube-backend-sast:
+  dependencies:
+    - build-backend-code-job
   stage: test
   image: maven:3.8-openjdk-16 # тот самый docker-образ, о котором мы все узнаем в будущем
   script:
@@ -50,8 +52,7 @@ sonarqube-backend-sast:
       -Dsonar.projectKey=$SonarQubeProject
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
-  needs:
-    - build-backend-code-job
+
 
           
 
