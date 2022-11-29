@@ -50,6 +50,8 @@ sonarqube-backend-sast:
       -Dsonar.projectKey=$SonarQubeProject
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
+  needs:
+    - build-backend-code-job
 
           
 
