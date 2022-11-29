@@ -52,6 +52,19 @@ sonarqube-backend-sast:
       -Dsonar.projectKey=$SonarQubeProject
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
+      
+sonarqube-frontend-sast:
+  dependencies:
+    - build-frontend-code-job
+  stage: test
+  script:
+    - cd frontend
+      sonar-scanner \
+     -Dsonar.projectKey=$SonarQubeProject
+     -Dsonar.sources=. \
+     -Dsonar.host.url=$SonarQubeUrl
+     -Dsonar.login=$SonarQubeLogin 
+
 
 
           
