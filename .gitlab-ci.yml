@@ -66,10 +66,10 @@ sonarqube-frontend-sast:
 #    GIT_DEPTH: 0  
   script:
     - cd frontend
-    - sonar-scanner \
-      -Dsonar.projectKey=$SonarQubeProject \
-      -Dsonar.sources=. \
-      -Dsonar.host.url=$SonarQubeUrl \
+    - sonar-scanner 
+      -Dsonar.projectKey=$SonarQubeProject 
+      -Dsonar.sources=. 
+      -Dsonar.host.url=$SonarQubeUrl 
       -Dsonar.login=$SonarQubeLogin 
 
           
