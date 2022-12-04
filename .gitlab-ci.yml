@@ -20,11 +20,13 @@ build-backend-code-job:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
 
 spotbugs-sast:
-  stage: test 
+  stage: test  
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository # не забудьте при сборке также указывать эту папку через аргумент -Dmaven.repo.local   
+  needs:
+    - build-backend-code-job
 
 
 sonarqube-backend-sast:
@@ -85,7 +87,7 @@ slack-notification-frontend:
    changes:
    - frontend/*
  script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=\"$project_token\"\'}\"|frontend> https://***REMOVED***"
+   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=$project_token|frontend>\'}\" https://***REMOVED***"
  needs:
    - build-frontend-code-job
 
@@ -95,7 +97,7 @@ slack-notification-backend:
    changes:
    - backend/*
  script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <backend|https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=\"$project_token\"\'}\"> https://***REMOVED***"
+   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <backend|https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=$project_token>\'}\" https://***REMOVED***"
  needs:
    - build-backend-code-job
 
