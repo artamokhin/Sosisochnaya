@@ -20,13 +20,12 @@ build-backend-code-job:
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
 
 spotbugs-sast:
-  stage: test
+  stage: test 
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
     MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository # не забудьте при сборке также указывать эту папку через аргумент -Dmaven.repo.local   
-  needs:
-    - build-backend-code-job
+
 
 sonarqube-backend-sast:
   stage: test
