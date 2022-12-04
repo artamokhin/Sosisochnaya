@@ -21,6 +21,9 @@ build-backend-code-job:
 
 spotbugs-sast:
   stage: test  
+  only:
+    changes:
+    - backend/
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
