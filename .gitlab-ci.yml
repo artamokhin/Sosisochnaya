@@ -59,13 +59,12 @@ sonarqube-frontend-sast:
   stage: test
   script:
     - cd frontend
-    - sonar-scanner \
-     -Dsonar.projectKey=$SonarQubeProject
-     -Dsonar.sources=. \
-     -Dsonar.host.url=$SonarQubeUrl
-     -Dsonar.login=$SonarQubeLogin 
-
-
+    - >
+      sonar-scanner \
+      -Dsonar.projectKey=$SonarQubeProject
+      -Dsonar.sources=. \
+      -Dsonar.host.url=$SonarQubeUrl
+      -Dsonar.login=$SonarQubeLogin 
 
           
 
