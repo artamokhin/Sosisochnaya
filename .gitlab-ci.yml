@@ -57,6 +57,13 @@ sonarqube-frontend-sast:
   dependencies:
     - build-frontend-code-job
   stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_TOKEN: $SonarQubeToken
+#    SONAR_HOST_URL: "http://your-sonarqube-instance.org"
+#    GIT_DEPTH: 0  
   script:
     - cd frontend
     - sonar-scanner \
