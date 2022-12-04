@@ -96,7 +96,7 @@ slack-notification-backend:
    changes:
    - backend/*
  script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <backend|https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=$project_token>\'}\" https://***REMOVED***"
+   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=$project_token|backend>\'}\" https://***REMOVED***"
  needs:
    - build-backend-code-job
 
