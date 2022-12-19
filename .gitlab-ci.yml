@@ -5,7 +5,8 @@ stages:
 
 cache:
   paths:
-    - ./.m2/repository
+    - node_modules/
+    - .m2/repository
   # keep cache across branch
   key: "$CI_BUILD_REF_NAME"
 
