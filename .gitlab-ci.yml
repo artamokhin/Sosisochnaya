@@ -3,6 +3,12 @@ stages:
   - test
   - notify
 
+cache:
+  paths:
+    - ./.m2/repository
+  # keep cache across branch
+  key: "$CI_BUILD_REF_NAME"
+
 include:
   - template: Security/SAST.gitlab-ci.yml
 
@@ -14,17 +20,13 @@ build-backend-code-job:
   script:
     - cd backend
     - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository 
-  cache:
-    key: $CI_BUILD_REF_NAME"
   artifacts:
     paths:
       - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
       - ${CI_PROJECT_DIR}/.m2/ # сохранение зависимостей для SAST 
 
 spotbugs-sast:
-  stage: test
-  cache:
-    key: $CI_BUILD_REF_NAME"   
+  stage: test 
   variables:
     COMPILE: "false"
     SAST_JAVA_VERSION: 11
@@ -36,8 +38,6 @@ sonarqube-backend-sast:
     changes:
     - backend/*
   image: maven:3.8-openjdk-16 # тот самый docker-образ, о котором мы все узнаем в будущем
-  cache:
-    key: $CI_BUILD_REF_NAME"
   script:
     - cd backend
     - >
@@ -45,8 +45,6 @@ sonarqube-backend-sast:
       -Dsonar.projectKey=$SonarQubeProjectBackend
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
-  cache:
-    key: $CI_BUILD_REF_NAME"
   needs:
     - build-backend-code-job
 
@@ -59,8 +57,6 @@ build-frontend-code-job:
     - cd frontend
     - npm install
     - npm run build
-  cache:
-    key: $CI_BUILD_REF_NAME"
   artifacts:
     paths:
       - frontend/dist/frontend  
@@ -84,8 +80,6 @@ sonarqube-frontend-sast:
       -Dsonar.sources=. 
       -Dsonar.host.url=$SonarQubeUrl 
       -Dsonar.login=$SonarQubeLogin 
-  cache:
-    key: $CI_BUILD_REF_NAME"
   needs:
     - build-frontend-code-job
           
