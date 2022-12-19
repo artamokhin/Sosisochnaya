@@ -16,6 +16,8 @@ build-backend-code-job:
     - mvn package -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository 
   cache:
     key: $CI_BUILD_REF_NAME"
+    paths:
+    - .m2/repository
   artifacts:
     paths:
       - backend/target/sausage-store-0.0.1-SNAPSHOT.jar
@@ -38,6 +40,8 @@ sonarqube-backend-sast:
   image: maven:3.8-openjdk-16 # тот самый docker-образ, о котором мы все узнаем в будущем
   cache:
     key: $CI_BUILD_REF_NAME"
+    paths:
+    - .m2/repository
   script:
     - cd backend
     - >
