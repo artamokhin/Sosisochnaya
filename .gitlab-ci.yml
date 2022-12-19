@@ -5,10 +5,10 @@ stages:
 
 cache:
   paths:
-    - node_modules/
+    - .npm/
     - .m2/repository
   # keep cache across branch
-  key: "$CI_BUILD_REF_NAME"
+  key: "$CI_COMMIT_REF_SLUG"
 
 include:
   - template: Security/SAST.gitlab-ci.yml
@@ -91,7 +91,7 @@ slack-notification-frontend:
    changes:
    - frontend/*
  script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=$project_token|frontend>\'}\" https://***REMOVED***"
+   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал frontend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-frontend-code-job&private_token=$project_token|frontend>\'}\" https://api.pachca.com/webhooks/***REMOVED***"
  needs:
    - build-frontend-code-job
 
@@ -101,7 +101,7 @@ slack-notification-backend:
    changes:
    - backend/*
  script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=$project_token|backend>\'}\" https://***REMOVED***"
+   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал backend, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=build-backend-code-job&private_token=$project_token|backend>\'}\" https://api.pachca.com/webhooks/***REMOVED***"
  needs:
    - build-backend-code-job
 
