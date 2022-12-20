@@ -12,14 +12,19 @@ cache:
 variables:
    TYPE_JOB: 'Type of job'
    NAME_BUILD_JOB: 'Name of build-job'
+   pachka_bot: "https://api.pachca.com/webhooks/***REMOVED***"
 
 include:
   - template: Security/SAST.gitlab-ci.yml
 
 .notify-job:
   stage: build
+  variables:
+    download_link: "https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=$NAME_BUILD_JOB&private_token=<$project_token|$TYPE_JOB>"
+    message: "Артамохин Александр собрал $TYPE_JOB"
   after_script:
-   - "curl -X POST -H \'Content-type: application/json\' --data \"{\'text':\'Артамохин Александр собрал $TYPE_JOB, скачать артефакты можно по ссылке <https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=$NAME_BUILD_JOB&private_token=$project_token|$TYPE_JOB>\'}\" https://api.pachca.com/webhooks/***REMOVED***"
+   - 'curl -X POST -H "Content-type: application/json" 
+      -d " { \"message\": \"$message [Скачать тут]($download_link)\" } " $pachka_bot'
 
 build-backend-code-job:
   extends: .notify-job
