@@ -20,7 +20,8 @@ include:
 .notify-job:
   stage: build
   variables:
-    download_link: "https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/release-0.0.1/download?job=$NAME_BUILD_JOB&private_token=$project_token"
+    download_link: "https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/main/download?job=$NAME_BUILD_JOB&private_token=$ProjectToken"
+
     message: "Артамохин Александр собрал $TYPE_JOB"
   after_script:
    - 'curl -X POST -H "Content-type: application/json" 
