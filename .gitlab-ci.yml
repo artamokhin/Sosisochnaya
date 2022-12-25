@@ -25,11 +25,10 @@ include:
   stage: build
   variables:
     download_link: "https://gitlab.praktikum-services.ru/api/v4/projects/1818/jobs/artifacts/main/download?job=$NAME_BUILD_JOB&private_token=$ProjectToken"
-
-    message: "Артамохин Александр собрал $TYPE_JOB"
+    message: "Вышла новая версия $TYPE_JOB сосисочной — $VERSION. Скачать $TYPE_JOB можно по ссылке — [Скачать артефакт]($download_link)."
   after_script:
    - 'curl -X POST -H "Content-type: application/json" 
-      -d " { \"message\": \"$message [Скачать тут]($download_link)\" } " $pachka_bot'
+      -d " { \"message\": \"$message\" } " $pachka_bot'
 
 build-backend-code-job:
   extends: .notify-job
