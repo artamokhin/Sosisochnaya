@@ -41,7 +41,7 @@ release:
       - changes:
            - backend/* 
            
- deploy:
+deploy:
   stage: deploy
   script:
      #выполняем простую команду для проверки
