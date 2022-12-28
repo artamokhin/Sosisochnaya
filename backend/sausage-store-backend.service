@@ -1,0 +1,16 @@
+[Unit]
+Description=Backend application based on Java
+
+[Service]
+ExecStart=/usr/bin/java -jar /var/jarservice/sausage-store-0.0.1-SNAPSHOT.jar
+Environment="REPORT_PATH=/var/www-data/htdocs/"
+Environment="LOG_PATH=/logs/"
+WorkingDirectory=/var/jarservice
+StandardOutput=append:/logs/out.log
+Restart=always
+RestartSec=3
+KillMode=process
+User=jarservice
+
+[Install]
+WantedBy=multi-user.target
