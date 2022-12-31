@@ -49,4 +49,4 @@ deploy:
   when: manual
   environment:
     name: staging
-    url: https://sausage-store-stage.ru/ 
+    url: http://158.160.34.207 
