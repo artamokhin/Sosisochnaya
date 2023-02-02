@@ -12,7 +12,7 @@ ExecStart=/usr/bin/java \
 -Dmyserver.bindAddr='127.0.0.1' \
 -Dmyserver.bindPort='8080' \
 -Dmyserver.hostName='Sausage-store' \
--jar '/home/jarservice/sausage-store.jar'
+-jar '/home/jarservice/sausage-store.jar'--spring.datasource.url=jdbc:postgresql://***REMOVED*** --spring.datasource.username=artamokhin1 --spring.datasource.password=***REMOVED***
 SuccessExitStatus=143
 
 [Install]
