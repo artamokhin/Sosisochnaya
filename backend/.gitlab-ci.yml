@@ -45,7 +45,8 @@ deploy:
   stage: deploy
   script:
     - scp ./backend/sausage-store-backend.service ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/sausage-store-backend.service
-    - ssh ${DEV_USER}@${DEV_HOST} "sed -i 's/DBPASS/${DBPASS}/' /home/${DEV_USER}/sausage-store-backend.service"; "sed -i 's/DBLOGIN/${DBLOGIN}/' /home/${DEV_USER}/sausage-store-backend.service"
+    - ssh ${DEV_USER}@${DEV_HOST} "sed -i 's/DBPASS/${DBPASS}/' /home/${DEV_USER}/sausage-store-backend.service"
+    - ssh ${DEV_USER}@${DEV_HOST} "sed -i 's/DBLOGIN/${DBLOGIN}/' /home/${DEV_USER}/sausage-store-backend.service"
     - ssh ${DEV_USER}@${DEV_HOST} "export "CURRENT_VERSION=${VERSION}"; export "VERSION=${VERSION}"; export "DEV_HOST=${DEV_HOST}";export "NEXUS_REPO_URL_BACKEND=${NEXUS_REPO_URL_BACKEND}"; export "NEXUS_REPO_USER=${NEXUS_REPO_USER}"; export "NEXUS_REPO_PASS=${NEXUS_REPO_PASS}";setsid /bin/bash -s " < ./backend/deploy.sh 
   #when: manual
   environment:
