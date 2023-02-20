@@ -8,6 +8,7 @@ stages:
   - test
   - release
   - deploy
+  - check
 
 build-backend:
   stage: build
@@ -41,7 +42,7 @@ sonarqube-backend-sast:
   only:
     changes:
     - backend/*
-  image: maven:3.8-openjdk-16 # тот самый docker-образ, о котором мы все узнаем в будущем
+  image: maven:3.8-openjdk-16
   script:
     - cd backend
     - >
@@ -90,3 +91,9 @@ deploy-backend:
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
       /bin/bash -s " < ./backend/backend_deploy.sh 
+      
+ check-sausage:
+  stage: check
+  image: alpine:3.15.0
+  script:
+    - curl -Is ${DEV_HOST}:80 | head -n 1 == "HTTP/1.1 200 OK"
