@@ -8,4 +8,4 @@ docker run -d --name sausage-frontend \
     --restart always \
     --pull always \
     --env-file .env \
-    https://gitlab.praktikum-services.ru/std-012-056/sausage-store/sausage-frontend:latest 
+    gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-frontend:latest 
