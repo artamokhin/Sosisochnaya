@@ -11,6 +11,7 @@ docker pull <реестр Gitlab Registry>/sausage-store/sausage-backend:latest
 docker stop sausage-backend || true
 docker rm sausage-backend || true
 set -e
+docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 docker run -d --name sausage-backend \
     --network=sausage_network \
     --restart always \
