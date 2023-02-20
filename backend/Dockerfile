@@ -10,8 +10,7 @@ COPY ./src ./src
 COPY *.xml ./
 # копируем CA-сертификат Яндекса в образ
 RUN curl https://storage.yandexcloud.net/cloud-certs/CA.pem -o YandexInternalRootCA.crt \
-    && mvn package -Dversion.application=${VERSION}
-
+    && mvn package -Dversion.application=${VERSION} -Dmaven.repo.local=${CI_PROJECT_DIR}/.m2/repository
 # release
 FROM openjdk:16-jdk-alpine
 ARG VERSION=${VERSION}

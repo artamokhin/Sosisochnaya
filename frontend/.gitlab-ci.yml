@@ -1,9 +1,11 @@
 include:
   - project: 'templates/ci'
+  - template: Security/SAST.gitlab-ci.yml
     file: 'DockerInDockerTemplate.yml'
     
 stages:
   - build
+  - test
   - release
   - deploy
 
@@ -22,6 +24,30 @@ build-frontend:
       --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    
+sonarqube-frontend-sast:
+  stage: test
+  only:
+    changes:
+    - frontend/*
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_TOKEN: $SonarQubeToken
+    SONAR_HOST_URL: $SonarQubeUrl
+    GIT_DEPTH: 0  
+  script:
+    - cd frontend
+    - sonar-scanner 
+      -Dsonar.projectKey=$SonarQubeProject 
+      -Dsonar.sources=. 
+      -Dsonar.host.url=$SonarQubeUrl 
+      -Dsonar.login=$SonarQubeLogin 
+  needs:
+    - build-frontend
+
+    
 
 upload-frontend-latest:
   variables:
