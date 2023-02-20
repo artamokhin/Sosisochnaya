@@ -1,6 +1,6 @@
 include:
-  - project: 'templates/ci'
   - template: Security/SAST.gitlab-ci.yml
+  - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
     
 stages:
@@ -46,8 +46,6 @@ sonarqube-backend-sast:
       -Dsonar.projectKey=$SonarQubeProject
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
-needs:
-    - build-backend
     
 
 upload-backend-latest:
