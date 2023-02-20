@@ -28,13 +28,16 @@ build-backend:
 spotbugs-sast:
   stage: test 
   variables:
-    COMPILE: "false"
-    SAST_JAVA_VERSION: 11
-    MAVEN_REPO_PATH: ${CI_PROJECT_DIR}/.m2/repository # не забудьте при сборке также указывать эту папку через аргумент -Dmaven.repo.local   
+    COMPILE: "true"
+    SAST_JAVA_VERSION: 17   
 
 
 sonarqube-backend-sast:
   stage: test
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository
   only:
     changes:
     - backend/*
@@ -66,11 +69,11 @@ deploy-backend:
   stage: deploy
   image: alpine:3.15.0
   # если хотим сделать деплой по кнопке
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-      when: manual
-    - if: '$CI_COMMIT_BRANCH == "master"'
-      when: manual
+#  rules:
+#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+#      when: manual
+#    - if: '$CI_COMMIT_BRANCH == "master"'
+#      when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
