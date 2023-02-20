@@ -24,6 +24,9 @@ build-backend:
       --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
+    - docker run --rm -d --env-file .env --name sausage-backend sausage-backend:0.0.1 
+    - docker ps | grep backend | wc -l == "1"
+    - curl -Is http://sausage-backend:8080/api/products | head -n 1 == "HTTP/1.1 200 OK"   
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     
 spotbugs-sast:
