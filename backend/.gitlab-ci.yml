@@ -43,7 +43,7 @@ sonarqube-backend-sast:
     - cd backend
     - >
       mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
-      -Dsonar.projectKey=$SonarQubeProject
+      -Dsonar.projectKey=$SonarQubeProjectBackend
       -Dsonar.host.url=$SonarQubeUrl
       -Dsonar.login=$SonarQubeLogin 
     
