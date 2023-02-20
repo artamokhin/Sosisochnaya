@@ -1,5 +1,5 @@
 #!/bin/bash
-docker pull std-012-056 std-012-056/sausage-store/sausage-frontend:latest
+docker pull gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-frontend:latest
 docker stop sausage-frontend || true
 docker rm sausage-frontend || true
 set -e
