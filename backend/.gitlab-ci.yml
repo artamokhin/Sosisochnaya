@@ -21,6 +21,7 @@ build-backend:
       --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
       --destination "$CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA"
       --cache=true
+      --cache-copy-layers=true
     
 spotbugs-sast:
   stage: test 
