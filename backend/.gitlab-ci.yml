@@ -15,14 +15,12 @@ build-backend:
   image:
     name: gcr.io/kaniko-project/executor:v1.9.0-debug
     entrypoint: [""]
-  args:
-    - --cache=true
   script:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/backend/Dockerfile"
       --destination "$CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA"
-
+      --cache=true
     
 spotbugs-sast:
   stage: test 
