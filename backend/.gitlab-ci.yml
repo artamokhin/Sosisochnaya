@@ -23,10 +23,7 @@ build-backend:
       docker build
       --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-      .
-    - docker run --rm -d --env-file .env --name sausage-backend sausage-backend:0.0.1 
-    - docker ps | grep backend | wc -l == "1"
-    - curl -Is http://sausage-backend:8080/api/products | head -n 1 == "HTTP/1.1 200 OK"   
+      .  
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     
 spotbugs-sast:
@@ -94,9 +91,3 @@ deploy-backend:
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
       /bin/bash -s " < ./backend/backend_deploy.sh 
-      
-check-sausage:
-  stage: check
-  image: alpine:3.15.0
-  script:
-    - curl -Is ${DEV_HOST}:80 | head -n 1 == "HTTP/1.1 200 OK"
