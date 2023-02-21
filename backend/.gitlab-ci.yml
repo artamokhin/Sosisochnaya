@@ -25,12 +25,13 @@ build-backend:
       .
     # Проверка запуска контейнера
     - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-    # Устанавливаем curl
-    - apk add curl
     # Проверяем запущен ли наш сервис
-    - grep -q "Сливочная" <(curl -s localhost:8080/api/products) || exit 1
+    - wget localhost:8080/api/products
+    - grep -q "Сливочная" <(cat products.8)
+    # Проверяем запущен ли наш сервис (в образе нет curl и нет прав на установку)
+    #- grep -q "Сливочная" <(curl -s localhost:8080/api/products) || exit 1
     # Проверяем работает ли сервис в целом
-   # - grep -q "HTTP/1.1 200 OK" <(curl -Is localhost:80 | head -n 1) || exit 1
+    #- grep -q "HTTP/1.1 200 OK" <(curl -Is localhost:80 | head -n 1) || exit 1
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     
 spotbugs-sast:
