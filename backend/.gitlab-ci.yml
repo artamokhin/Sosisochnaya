@@ -8,7 +8,6 @@ stages:
   - test
   - release
   - deploy
-  - check
 
 build-backend:
   stage: build
@@ -23,7 +22,13 @@ build-backend:
       docker build
       --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-      .  
+      .
+    # Проверка запуска контейнера
+    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 sausage-backend:0.0.1
+    # Проверяем запущен ли он
+    - grep -q "Сливочная" <(curl -s localhost:8080/api/products) || exit 1
+    # Проверяем работает ли сервис в целом
+   # - grep -q "HTTP/1.1 200 OK" <(curl -Is localhost:80 | head -n 1) || exit 1
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     
 spotbugs-sast:
@@ -91,3 +96,4 @@ deploy-backend:
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
       /bin/bash -s " < ./backend/backend_deploy.sh 
+      
