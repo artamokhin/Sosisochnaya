@@ -13,4 +13,4 @@ RUN ls -lh
 RUN pwd
 RUN npm install -g http-server
 EXPOSE 80
-ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8080"]
+ENTRYPOINT ["http-server", "./", "-p", "80", "--proxy", "http://sausage-backend:8080"]
