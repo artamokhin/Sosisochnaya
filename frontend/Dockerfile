@@ -1,11 +1,11 @@
-FROM node:16.13.2-alpine as builder
+FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/node:16.13.2-alpine as builder
 # Create app directory
 WORKDIR /usr/src/app
 COPY . .
 RUN npm install  && npm run build
 
 
-FROM alpine:3.17
+FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/alpine:3.15.0
 # Create app directory
 WORKDIR /dist/frontend
 COPY --from=builder /dist/frontend/ .
