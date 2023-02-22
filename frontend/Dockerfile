@@ -5,7 +5,7 @@ COPY . .
 RUN npm install  && npm run build
 
 
-FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/alpine:3.15.0
+FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/node:16.13.2-alpine
 # Create app directory
 WORKDIR /dist/frontend
 COPY --from=builder /usr/src/app/dist/frontend ./
