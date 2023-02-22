@@ -10,7 +10,7 @@ FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/node:16.13.2-al
 WORKDIR /dist/frontend
 COPY --from=builder /usr/src/app/dist/frontend ./
 RUN ls -lh
-RUN ls -lh /
+RUN pwd
 RUN npm install -g http-server
 EXPOSE 80
 ENTRYPOINT ["http-server", "dist/frontend/", "-p", "80", "--proxy", "http://sausage-backend:8080"]
