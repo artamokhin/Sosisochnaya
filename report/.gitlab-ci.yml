@@ -54,10 +54,12 @@ deploy-report:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
+    - ${MONGO_DATA}
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
        export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "MONGO_DATA=${MONGO_DATA}";
+       echo ${MONGO_DATA};
        /bin/bash -s " < ./report/report_deploy.sh
       
