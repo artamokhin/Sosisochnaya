@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose up -d --force-recreate sausage-report:latest
+docker-compose up -d --force-recreate report
