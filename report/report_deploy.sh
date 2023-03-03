@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose up -d report
+docker-compose up report
