@@ -12,6 +12,9 @@ stages:
 build-frontend:
   stage: build
   image: docker:20.10.12-dind-rootless
+  only:
+    changes:
+      - frontend/*
   before_script:
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
@@ -63,12 +66,6 @@ upload-frontend-latest:
 deploy-frontend:
   stage: deploy
   image: alpine:3.15.0
-  # если хотим сделать деплой по кнопке
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
-#    - if: '$CI_COMMIT_BRANCH == "master"'
-#      when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -78,6 +75,6 @@ deploy-frontend:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
     - ssh ${DEV_USER}@${DEV_HOST}
-      "export "VERSION=${VERSION}";
-      /bin/bash -s " < ./frontend/frontend_deploy.sh
+      "/bin/bash -s " < ./frontend/report_deploy.sh

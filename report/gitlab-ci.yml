@@ -11,6 +11,9 @@ stages:
 build-report:
   stage: build
   image: docker:20.10.12-dind-rootless
+  only:
+    changes:
+      - report/*
   before_script:
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
@@ -36,18 +39,12 @@ upload-report-latest:
   script:
     - docker pull $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
     # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-    - docker tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-backend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-backend:latest
+    - docker tag $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-report:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-report:latest
 
-deploy-backend:
+deploy-report:
   stage: deploy
   image: alpine:3.15.0
-  # если хотим сделать деплой по кнопке
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
-#    - if: '$CI_COMMIT_BRANCH == "master"'
-#      when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -57,11 +54,7 @@ deploy-backend:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
     - ssh ${DEV_USER}@${DEV_HOST}
-      "export "VERSION=${VERSION}";
-       export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
-       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
-       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
-       export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}";
-      /bin/bash -s " < ./backend/backend_deploy.sh 
+      "/bin/bash -s " < ./report/report_deploy.sh
       
