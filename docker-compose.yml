@@ -5,9 +5,9 @@ services:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-backend:latest
     container_name: sausage-backend
     environment:
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: $SPRING_DATASOURCE_USERNAME
+      SPRING_DATASOURCE_PASSWORD: $SPRING_DATASOURCE_PASSWORD
+      SPRING_DATASOURCE_URL: $SPRING_DATASOURCE_URL
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
     networks:
       - sausage-store
@@ -17,7 +17,7 @@ services:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-report:latest
     container_name: sausage-report
     environment:
-       DB: ${MONGO_DATA}
+       DB: $MONGO_DATA
        PORT: 8080
     networks:
       - sausage-store
