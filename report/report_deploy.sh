@@ -1,3 +1,2 @@
 #!/bin/bash
-docker-compose stop
-docker-compose up -d --force-recreate
+docker-compose up -d --force-recreate sausage-report
