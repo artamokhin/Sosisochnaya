@@ -77,9 +77,4 @@ deploy-frontend:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
-    - ssh ${DEV_USER}@${DEV_HOST}
-      "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
-       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
-       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
-       export "MONGO=${MONGO_DATA}";
-       /bin/bash -s " < ./frontend/frontend_deploy.sh
+    - ssh ${DEV_USER}@${DEV_HOST} ./frontend/frontend_deploy.sh
