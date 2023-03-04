@@ -44,7 +44,7 @@ upload-report-latest:
 
 deploy-report:
   stage: deploy
-  image: docker:20.10.12-dind-rootless
+  image: docker:20.10.12-dind
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
