@@ -2,7 +2,8 @@ include:
   - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
-    
+
+
 stages:
   - build
   - test
