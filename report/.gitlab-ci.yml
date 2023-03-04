@@ -55,6 +55,7 @@ deploy-report:
     - chmod 644 ~/.ssh/known_hosts
     - apk update
     - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
+    - export CRYPTOGRAPHY_DONT_BUILD_RUST=1
     - pip install docker-compose
   script:
     - docker context create remote ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}”
