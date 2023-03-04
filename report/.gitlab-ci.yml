@@ -61,6 +61,5 @@ deploy-report:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker context create sausage_remote --docker host=ssh://${DEV_USER}@${DEV_HOST}
-    - docker context use sausage_remote
-    - docker-compose up -d report
+    - docker-compose --context sausage_remote up -d report
       
