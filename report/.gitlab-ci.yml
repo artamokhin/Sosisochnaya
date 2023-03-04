@@ -54,11 +54,11 @@ deploy-report:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
+    - echo ${MONGO_DATA}'&tlsAllowInvalidCertificates=true'
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
        export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
        export "MONGO_DB=${MONGO_DATA}'&tlsAllowInvalidCertificates=true'";
-       echo $MONGO_DB;
        /bin/bash -s " < ./report/report_deploy.sh
       
