@@ -58,6 +58,6 @@ deploy-report:
     - pip install --upgrade pip
     - pip install setuptools_rust cryptography docker-compose
   script:
-    - docker context create ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}” remote
-    - docker-compose ‐‐context remote up -d report
+    - docker context create sausage_remote ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}”
+    - docker-compose ‐‐context sausage_remote up -d report
       
