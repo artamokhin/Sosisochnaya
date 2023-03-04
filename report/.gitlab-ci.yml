@@ -56,8 +56,8 @@ deploy-report:
     - apk update
     - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install --upgrade pip
-    - pip install setuptools_rust docker-compose
+    - pip install setuptools_rust cryptography docker-compose
   script:
-    - docker context create remote ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}”
+    - docker context create ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}” remote
     - docker-compose ‐‐context remote up -d report
       
