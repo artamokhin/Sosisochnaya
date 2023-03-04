@@ -54,7 +54,7 @@ deploy-report:
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - apk update
-    - apk add --no-cache py-pip
+    - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install docker-compose
   script:
     - docker context create remote ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}”
