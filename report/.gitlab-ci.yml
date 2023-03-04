@@ -62,6 +62,7 @@ deploy-report:
   script:
     - docker context create sausage_remote --docker host=ssh://${DEV_USER}@${DEV_HOST}
     - echo $SPRING_DATASOURCE_USERNAME
+    - echo ${SPRING_DATASOURCE_USERNAME}
     - docker-compose --context sausage_remote up -d report
 
       
