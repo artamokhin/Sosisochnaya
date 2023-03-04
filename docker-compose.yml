@@ -24,7 +24,6 @@ services:
     networks:
       - sausage-store
 
-
   frontend:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-frontend:latest
     container_name: sausage-frontend
