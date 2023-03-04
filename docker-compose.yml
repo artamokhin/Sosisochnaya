@@ -18,7 +18,7 @@ services:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-report:latest
     container_name: sausage-report
     environment:
-       DB: ${MONGO_DB}'&tlsAllowInvalidCertificates=true'
+       DB: "${MONGO_DB}'&tlsAllowInvalidCertificates=true'"
        PORT: 8080
     networks:
       - sausage-store
