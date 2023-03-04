@@ -44,7 +44,7 @@ upload-report-latest:
 
 deploy-report:
   stage: deploy
-  image: alpine:3.15.0
+  image: docker:20.10.12-dind-rootless
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -53,9 +53,10 @@ deploy-report:
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
+    - apk update
+    - apk add --no-cache py-pip
+    - pip install docker-compose
   script:
-    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
-    - ssh ${DEV_USER}@${DEV_HOST}
-      "export "MONGO=${MONGO_DATA_REPORT}";
-       /bin/bash -s " < ./report/report_deploy.sh
+    - docker context create remote ‐‐docker “host=ssh://${DEV_USER}@${DEV_HOST}”
+    - docker-compose ‐‐context remote up -d report
       
