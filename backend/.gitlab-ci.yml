@@ -29,7 +29,7 @@ build-backend:
     # Вставка секретов
     - sed -i 's/DB-LOGIN/'"${DBLOGIN}"'/' .env
     - sed -i 's/DB-PASS/'"${DBPASS}"'/' .env
-    - sed -i 's/MONGO-DATA/'"${MONGO_DATA}"'/' .env
+    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
     # Проверка запуска контейнера
     - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     # Ждем пока запустится контейнер
