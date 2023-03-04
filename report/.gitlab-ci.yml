@@ -56,6 +56,8 @@ deploy-report:
     - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
     - pip install --upgrade pip
     - pip install setuptools_rust cryptography docker-compose
+    - until docker info; do sleep 1; done
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
     - docker context create sausage_remote --docker host=ssh://${DEV_USER}@${DEV_HOST}
     - docker context use sausage_remote
