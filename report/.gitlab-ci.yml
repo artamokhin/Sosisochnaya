@@ -61,6 +61,6 @@ deploy-report:
       "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
        export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
        export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
-       export "MONGO=${MONGO_DATA_REPORT}";
+       export "MONGO=${PSQL_PASSWORD}";
        /bin/bash -s " < ./report/report_deploy.sh
       
