@@ -1,3 +1,3 @@
 #!/bin/bash
-echo $MONGO-DATA
+echo $MONGO_DB
 docker-compose up -d report
