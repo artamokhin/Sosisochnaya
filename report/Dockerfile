@@ -1,4 +1,4 @@
-FROM python:latest
+FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/python:latest
 WORKDIR /app
 COPY requirements.txt ./
 ADD app.py ./
