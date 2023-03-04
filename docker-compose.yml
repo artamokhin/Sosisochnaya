@@ -18,7 +18,8 @@ services:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-report:latest
     container_name: sausage-report
     environment:
-       DB: ${MONGO}
+       #DB: ${MONGO}
+       DB: mongodb:\/\/artamokhin1:***REMOVED***@rc1a-ftsq82uol4t7mcoq.mdb.yandexcloud.net:27018\/artamokhin1?tls=true&tlsAllowInvalidCertificates=true
        PORT: 8080
     networks:
       - sausage-store
