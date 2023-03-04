@@ -1,3 +1,3 @@
 #!/bin/bash
-echo $MONGO_DB > MONGO.txt
+echo $MONGO > MONGO.txt
 docker-compose up -d report
