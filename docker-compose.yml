@@ -19,7 +19,7 @@ services:
     container_name: sausage-report
     environment:
        #DB: ${MONGO}
-       DB: mongodb:\/\/artamokhin1:***REMOVED***@rc1a-ftsq82uol4t7mcoq.mdb.yandexcloud.net:27018\/artamokhin1?tls=true&tlsAllowInvalidCertificates=true
+       DB: "mongodb:\/\/artamokhin1:***REMOVED***@rc1a-ftsq82uol4t7mcoq.mdb.yandexcloud.net:27018\/artamokhin1?tls=true&tlsAllowInvalidCertificates=true"
        PORT: 8080
     networks:
       - sausage-store
