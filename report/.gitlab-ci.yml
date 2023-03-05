@@ -1,57 +1,33 @@
 include:
-  - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
 stages:
   - build
-  - test
   - release
   - deploy
 
-
-build-frontend:
+build-report:
   stage: build
   image: docker:20.10.12-dind-rootless
   only:
     changes:
-      - frontend/*
+      - report/*
   before_script:
     - until docker info; do sleep 1; done
     # переменные CI_REGISTRY_USER, CI_REGISTRY_PASSWORD, CI_REGISTRY генерятся Гитлабом, их задавать не надо
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - cd frontend
+    - cd report
     - >
       docker build
       --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+      --tag $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
       .
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
-
-
-sonarqube-frontend-sast:
-  stage: test
-  only:
-    changes:
-    - frontend/*
-  image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  variables:
-    SONAR_TOKEN: $SonarQubeToken
-    SONAR_HOST_URL: $SonarQubeUrl
-    GIT_DEPTH: 0  
-  script:
-    - cd frontend
-    - sonar-scanner 
-      -Dsonar.projectKey=$SonarQubeProjectFrontend 
-      -Dsonar.sources=. 
-      -Dsonar.host.url=$SonarQubeUrl 
-      -Dsonar.login=$SonarQubeLogin 
+    - docker push $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
     
 
-upload-frontend-latest:
+upload-report-latest:
   variables:
     GIT_STRATEGY: none
   image: docker:20.10.12-dind-rootless
@@ -60,13 +36,13 @@ upload-frontend-latest:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker pull $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
     # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
+    - docker tag $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-report:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-report:latest
 
 
-deploy-frontend:
+deploy-report:
   stage: deploy
   image: alpine:3.15.0
   before_script:
@@ -80,4 +56,6 @@ deploy-frontend:
   script:
     - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
     - ssh ${DEV_USER}@${DEV_HOST}
-      "/bin/bash -s " < ./frontend/frontend_deploy.sh
+      "export "MONGO=${MONGO_DATA_REPORT}";
+       /bin/bash -s " < ./report/report_deploy.sh
+      
