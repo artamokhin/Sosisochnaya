@@ -25,7 +25,6 @@ build-frontend:
     - cd frontend
     - >
       docker build
-      --build-arg VERSION=$VERSION
       --tag $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA

@@ -5,9 +5,9 @@ COPY . .
 RUN npm install  && npm run build
 
 
-FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/nginxproxy/nginx-proxy
+FROM nginx-proxy:latest
 #COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-RUN cat /etc/nginx/conf.d/default.conf
+#RUN cat /etc/nginx/conf.d/default.conf
 #COPY ./nginx/nginx.tmpl /app
-#COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 #RUN cd /usr/share/nginx/html && ls -lh
