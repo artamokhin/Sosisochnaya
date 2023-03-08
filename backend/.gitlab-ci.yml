@@ -24,6 +24,7 @@ build-backend:
     - >
       docker build
       --build-arg VERSION=$VERSION
+      --no-cache
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
     # Вставка секретов
