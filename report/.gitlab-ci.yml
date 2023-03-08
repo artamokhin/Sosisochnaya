@@ -2,6 +2,7 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
+
 stages:
   - build
   - release
