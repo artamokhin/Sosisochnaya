@@ -5,7 +5,7 @@ COPY . .
 RUN npm install  && npm run build
 
 
-FROM nginx-proxy:latest
+FROM nginxproxy/nginx-proxy:latest
 #COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 #RUN cat /etc/nginx/conf.d/default.conf
 #COPY ./nginx/nginx.tmpl /app
