@@ -10,4 +10,3 @@ FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/nginxproxy/ngin
 #RUN cat /etc/nginx/conf.d/default.conf
 COPY ./nginx/nginx.tmpl /app
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
