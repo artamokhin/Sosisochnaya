@@ -6,6 +6,5 @@ RUN npm install  && npm run build
 
 
 FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/nginxproxy/nginx-proxy
-COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
