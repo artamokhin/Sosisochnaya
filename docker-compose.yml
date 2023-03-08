@@ -10,14 +10,15 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       REPORT_PATH: ./
-      VIRTUAL_HOST: sausage
+      VIRTUAL_HOST: s_host
     networks:
       - sausage-store
 
 
   report:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-report:latest
-    container_name: sausage-report
+#    Для масштабирования нужно убрать имя контейнера
+#    container_name: sausage-report
     environment:
        DB: ${MONGO}
        PORT: 8080
@@ -33,7 +34,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
-      - DEFAULT_HOST=sausage
+      - DEFAULT_HOST=s_host
     networks:
       - sausage-store
 
