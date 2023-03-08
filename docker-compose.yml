@@ -3,7 +3,8 @@ version: "3.3"
 services:
   backend:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-backend:latest
-    container_name: sausage-backend
+#    Для масштабирования нужно убрать имя контейнера
+#    container_name: sausage-backend
     environment:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
@@ -17,11 +18,10 @@ services:
 
   report:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-report:latest
-#    Для масштабирования нужно убрать имя контейнера
-#    container_name: sausage-report
+    container_name: sausage-report
     environment:
        DB: ${MONGO}
-       PORT: 8080
+       PORT: 8081
     networks:
       - sausage-store
 
