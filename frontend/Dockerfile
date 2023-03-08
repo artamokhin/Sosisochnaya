@@ -7,6 +7,5 @@ RUN npm install  && npm run build
 
 FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/nginxproxy/nginx-proxy
 COPY nginx.tmpl /app
-WORKDIR /usr/share/nginx/html
-COPY --from=builder /usr/src/app/dist/frontend ./
+COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
