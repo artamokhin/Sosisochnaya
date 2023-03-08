@@ -26,6 +26,7 @@ build-frontend:
     - >
       docker build
       --tag $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
+      --no-cache
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
 
