@@ -4,7 +4,7 @@ services:
   backend:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-backend:latest
 #    Для масштабирования нужно убрать имя контейнера
-    container_name: sausage-backend
+#    container_name: sausage-backend
     environment:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
@@ -34,7 +34,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
-      - DEFAULT_HOST=s_host
+      DEFAULT_HOST: s_host
     networks:
       - sausage-store
 
