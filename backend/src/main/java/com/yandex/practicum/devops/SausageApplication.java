@@ -8,10 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(exclude = {
-  MongoAutoConfiguration.class,
-  MongoDataAutoConfiguration.class
-})
+@SpringBootApplication
 @EnableScheduling
 public class SausageApplication {
 
