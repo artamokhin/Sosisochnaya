@@ -3,7 +3,6 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
-
 stages:
   - build
   - test
@@ -25,6 +24,7 @@ build-backend:
     - >
       docker build
       --build-arg VERSION=$VERSION
+      --no-cache
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
     # Вставка секретов
@@ -45,10 +45,10 @@ build-backend:
 
 
 spotbugs-sast:
-  stage: test 
+  stage: test
   variables:
     COMPILE: "true"
-    SAST_JAVA_VERSION: 17   
+    SAST_JAVA_VERSION: 17
 
 
 sonarqube-backend-sast:
@@ -67,7 +67,7 @@ sonarqube-backend-sast:
       mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
       -Dsonar.projectKey=$SonarQubeProjectBackend
       -Dsonar.host.url=$SonarQubeUrl
-      -Dsonar.login=$SonarQubeLogin 
+      -Dsonar.login=$SonarQubeLogin
     
 
 upload-backend-latest:
@@ -110,5 +110,5 @@ deploy-backend:
     - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
     - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
     - export "MONGO=${MONGO_DATA_REPORT}"
-    - docker-compose --context sausage_remote up -d backend
+    - docker-compose --context sausage_remote up -d --remove-orphans --force-recreate backend
       

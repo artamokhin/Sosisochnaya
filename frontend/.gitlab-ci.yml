@@ -24,10 +24,10 @@ build-frontend:
     - cd frontend
     - >
       docker build
-      --build-arg VERSION=$VERSION
-      --tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+      --tag $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
+      --no-cache
       .
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
 
 
 sonarqube-frontend-sast:
@@ -41,14 +41,14 @@ sonarqube-frontend-sast:
   variables:
     SONAR_TOKEN: $SonarQubeToken
     SONAR_HOST_URL: $SonarQubeUrl
-    GIT_DEPTH: 0  
+    GIT_DEPTH: 0
   script:
     - cd frontend
-    - sonar-scanner 
-      -Dsonar.projectKey=$SonarQubeProjectFrontend 
-      -Dsonar.sources=. 
-      -Dsonar.host.url=$SonarQubeUrl 
-      -Dsonar.login=$SonarQubeLogin 
+    - sonar-scanner
+      -Dsonar.projectKey=$SonarQubeProjectFrontend
+      -Dsonar.sources=.
+      -Dsonar.host.url=$SonarQubeUrl
+      -Dsonar.login=$SonarQubeLogin
     
 
 upload-frontend-latest:
@@ -60,13 +60,13 @@ upload-frontend-latest:
     - until docker info; do sleep 1; done
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
   script:
-    - docker pull $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA
+    - docker pull $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA
     # если образ прошел проверки в CI (сканирование, тесты и т.д), то тегаем latest
-    - docker tag $CI_REGISTRY_IMAGE/sausage-frontend:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-frontend:latest
-    - docker push $CI_REGISTRY_IMAGE/sausage-frontend:latest
+    - docker tag $CI_REGISTRY_IMAGE/sausage-nginx:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE/sausage-nginx:latest
+    - docker push $CI_REGISTRY_IMAGE/sausage-nginx:latest
 
 
-deploy-frontend:
+deploy-nginx:
   stage: deploy
   image: docker:23.0.1-dind
   before_script:
@@ -85,4 +85,4 @@ deploy-frontend:
     - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
     - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
     - export "MONGO=${MONGO_DATA_REPORT}"
-    - docker-compose --context sausage_remote up -d frontend
+    - docker-compose --context sausage_remote up --remove-orphans -d --force-recreate nginx

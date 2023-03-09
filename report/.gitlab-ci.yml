@@ -2,11 +2,11 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
+
 stages:
   - build
   - release
   - deploy
-
 
 build-report:
   stage: build
@@ -23,6 +23,7 @@ build-report:
     - >
       docker build
       --build-arg VERSION=$VERSION
+      --no-cache
       --tag $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
       .
     - docker push $CI_REGISTRY_IMAGE/sausage-report:$CI_COMMIT_SHA
@@ -66,6 +67,6 @@ deploy-report:
     - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
     - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
     - export "MONGO=${MONGO_DATA_REPORT}"
-    - docker-compose --context sausage_remote up -d report
+    - docker-compose --context sausage_remote up -d --remove-orphans --force-recreate report
 
       
