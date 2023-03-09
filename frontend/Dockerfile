@@ -8,3 +8,4 @@ RUN npm install  && npm run build
 FROM gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/nginxproxy/nginx-proxy:latest
 COPY ./nginx/nginx.tmpl /app
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
+EXPOSE 80
