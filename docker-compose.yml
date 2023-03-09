@@ -11,7 +11,7 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       REPORT_PATH: ./
-      VIRTUAL_HOST: s_host
+      VIRTUAL_HOST: sausage_host
     networks:
       - sausage-store
 
@@ -34,7 +34,7 @@ services:
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     environment:
-      DEFAULT_HOST: s_host
+      DEFAULT_HOST: sausage_host
     networks:
       - sausage-store
 
