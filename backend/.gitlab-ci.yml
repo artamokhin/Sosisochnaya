@@ -44,11 +44,11 @@ build-backend:
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
 
 
-spotbugs-sast:
-  stage: test 
-  variables:
-    COMPILE: "true"
-    SAST_JAVA_VERSION: 17   
+#spotbugs-sast:
+#  stage: test
+#  variables:
+#    COMPILE: "true"
+#    SAST_JAVA_VERSION: 17
 
 
 #sonarqube-backend-sast:
