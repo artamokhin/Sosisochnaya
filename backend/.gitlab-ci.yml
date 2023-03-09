@@ -1,11 +1,12 @@
 include:
-#  - template: Security/SAST.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
+
 stages:
   - build
-#  - test
+  - test
   - release
   - deploy
 
@@ -44,30 +45,30 @@ build-backend:
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
 
 
-#spotbugs-sast:
-#  stage: test
-#  variables:
-#    COMPILE: "true"
-#    SAST_JAVA_VERSION: 17
+spotbugs-sast:
+  stage: test
+  variables:
+    COMPILE: "true"
+    SAST_JAVA_VERSION: 17
 
 
-#sonarqube-backend-sast:
-#  stage: test
-#  cache:
-#    key: "$CI_COMMIT_REF_SLUG"
-#    paths:
-#      - .m2/repository
-#  only:
-#    changes:
-#    - backend/*
-#  image: maven:3.8-openjdk-16
-#  script:
-#    - cd backend
-#    - >
-#      mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
-#      -Dsonar.projectKey=$SonarQubeProjectBackend
-#      -Dsonar.host.url=$SonarQubeUrl
-#      -Dsonar.login=$SonarQubeLogin
+sonarqube-backend-sast:
+  stage: test
+  cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - .m2/repository
+  only:
+    changes:
+    - backend/*
+  image: maven:3.8-openjdk-16
+  script:
+    - cd backend
+    - >
+      mvn verify sonar:sonar -Dsonar.qualitygate.wait=true
+      -Dsonar.projectKey=$SonarQubeProjectBackend
+      -Dsonar.host.url=$SonarQubeUrl
+      -Dsonar.login=$SonarQubeLogin
     
 
 upload-backend-latest:
@@ -109,6 +110,6 @@ deploy-backend:
     - export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}"
     - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
     - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
-#    - export "MONGO=${MONGO_DATA_REPORT}"
+    - export "MONGO=${MONGO_DATA_REPORT}"
     - docker-compose --context sausage_remote up -d --remove-orphans --force-recreate backend
       
