@@ -4,6 +4,10 @@ BACKEND_BLUE="false"
 BACKEND_GREEN="false"
 docker ps | grep -q blue && BACKEND_BLUE="true"
 docker ps | grep -q green && BACKEND_GREEN="true"
+# Первичный запуск
+if [ "$BACKEND_BLUE" == "false" ] && [ "$BACKEND_GREEN" == "false" ]; then
+  docker-compose up -d --force-recreate backend-blue
+fi
 # Если запущен синий бэкенд, то скачиваем обновление и перезапускаем зеленый
 if [ "$BACKEND_BLUE" == "true" ]; then
   docker-compose pull
