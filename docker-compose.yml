@@ -1,10 +1,10 @@
-version: "3.3"
+version: "3.4"
 
 services:
-  backend:
+  backend-blue:
     image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-backend:latest
 #    Для масштабирования нужно убрать имя контейнера
-#    container_name: sausage-backend
+    container_name: blue
     environment:
       SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
@@ -13,6 +13,33 @@ services:
       SPRING_DATA_MONGODB_URI: ${MONGO_DATA}
       REPORT_PATH: ./
       VIRTUAL_HOST: sausage
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/actuator/health
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 6
+    networks:
+      - sausage-store
+
+  backend-green:
+    image: gitlab.praktikum-services.ru:5050/std-012-056/sausage-store/sausage-backend:latest
+#    Для масштабирования нужно убрать имя контейнера
+    container_name: green
+    environment:
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
+      SPRING_DATA_MONGODB_URI: ${MONGO_DATA}
+      REPORT_PATH: ./
+      VIRTUAL_HOST: sausage
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/actuator/health
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 6
     networks:
       - sausage-store
 
