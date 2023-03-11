@@ -26,6 +26,7 @@ RUN keytool -importcert -file YandexInternalRootCA.crt \
     && apk add --no-cache dumb-init==1.2.5-r0
 COPY --chown=jaruser:jaruser \
      --from=builder /usr/src/app/target/sausage-store-${VERSION}.jar ./sausage-store.jar
+RUN mkdir logs && chown -R jaruser:jaruser /app/logs
 EXPOSE 8080
 # приложение будет запускаться под пользователем jaruser
 USER jaruser

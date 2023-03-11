@@ -11,7 +11,7 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}
-      REPORT_PATH: /app
+      REPORT_PATH: /app/logs
       VIRTUAL_HOST: sausage
 #    healthcheck:
 #      test: curl --fail -s http://localhost:8080/actuator/health
@@ -32,7 +32,7 @@ services:
       SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
       SPRING_FLYWAY_BASELINE-ON-MIGRATE: "true"
       SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}
-      REPORT_PATH: /app
+      REPORT_PATH: /app/logs
       VIRTUAL_HOST: sausage
 #    healthcheck:
 #      test: curl --fail -s http://localhost:8080/actuator/health
