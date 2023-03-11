@@ -28,20 +28,20 @@ build-backend:
       --no-cache
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
-#    # Вставка секретов
-#    - sed -i 's/DB-LOGIN/'"${DBLOGIN}"'/' .env
-#    - sed -i 's/DB-PASS/'"${DBPASS}"'/' .env
-#    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
-#    # Проверка запуска контейнера
-#    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-#    # Ждем пока запустится контейнер
-#    - sleep 15
-#    # Скачиваем список сосисок
-#    - wget -O products.txt localhost:8080/api/products
-#     # Проверяем что сосиски на месте
-#    - grep -q "Сливочная" <(cat products.txt) || exit 1
-#    # Проверяем запущен ли наш сервис (в образе нет curl и нет прав на его установку)
-#     #- grep -q "Сливочная" <(curl -s localhost:8080/api/products) || exit 1
+    # Вставка секретов
+    - sed -i 's/DB-LOGIN/'"${DBLOGIN}"'/' .env
+    - sed -i 's/DB-PASS/'"${DBPASS}"'/' .env
+    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
+    # Проверка запуска контейнера
+    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    # Ждем пока запустится контейнер
+    - sleep 15
+    # Скачиваем список сосисок
+    - wget -O products.txt localhost:8080/api/products
+     # Проверяем что сосиски на месте
+    - grep -q "Сливочная" <(cat products.txt) || exit 1
+    # Проверяем запущен ли наш сервис (в образе нет curl и нет прав на его установку)
+     #- grep -q "Сливочная" <(curl -s localhost:8080/api/products) || exit 1
     - docker push $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
 
 
