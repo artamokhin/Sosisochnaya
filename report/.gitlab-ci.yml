@@ -55,13 +55,10 @@ deploy-report:
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - apk update
-    - apk add py-pip python3-dev libffi-dev openssl-dev gcc libc-dev make
-    - pip install --upgrade pip
-    - pip install setuptools_rust cryptography docker-compose
 
   script:
     - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
+    - echo ${MONGO_DATA_REPORT}
     - ssh ${DEV_USER}@${DEV_HOST}
       "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
        export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
