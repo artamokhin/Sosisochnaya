@@ -85,4 +85,7 @@ deploy-nginx:
     - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
     - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
     - export "SPRING_DATA_MONGODB_URI=${MONGO_DATA}"
+    - pwd
+    - ls -lah
+    - echo $SPRING_DATASOURCE_PASSWORD
     - docker-compose --context sausage_remote up --remove-orphans -d --force-recreate nginx
