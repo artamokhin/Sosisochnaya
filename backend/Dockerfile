@@ -28,7 +28,7 @@ RUN keytool -importcert -file YandexInternalRootCA.crt \
 COPY --chown=jaruser:jaruser \
      --from=builder /usr/src/app/target/sausage-store-${VERSION}.jar ./sausage-store.jar
 # создаем папку для логов и устанавливаем curl для проверки здоровья контейнера
-RUN mkdir logs && chown -R jaruser:jaruser /app/logs && apk update && apk install curl
+RUN mkdir logs && chown -R jaruser:jaruser /app/logs && apk add curl
 EXPOSE 8080
 # приложение будет запускаться под пользователем jaruser
 USER jaruser
