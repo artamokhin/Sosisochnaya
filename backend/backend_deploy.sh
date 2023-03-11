@@ -12,11 +12,11 @@ fi
 if [ "$BACKEND_BLUE" == "true" ]; then
   docker-compose pull backend-green
   docker-compose up -d --force-recreate backend-green
-  #until docker container ls --filter health=healthy | grep -q "green"; do sleep 1; done
+  until docker container ls --filter health=healthy | grep -q "green"; do sleep 1; done
   docker-compose stop backend-blue
 elif [ "$BACKEND_GREEN" == "true" ]; then
   docker-compose pull backend-blue
   docker-compose up -d --force-recreate backend-blue
-  #until docker container ls --filter health=healthy | grep -q "blue"; do sleep 1; done
+  until docker container ls --filter health=healthy | grep -q "blue"; do sleep 1; done
   docker-compose stop backend-green
 fi
