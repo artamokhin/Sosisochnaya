@@ -3,6 +3,7 @@ include:
   - project: 'templates/ci'
     file: 'DockerInDockerTemplate.yml'
 
+
 stages:
   - build
   - test
@@ -88,12 +89,6 @@ upload-backend-latest:
 deploy-backend:
   stage: deploy
   image: docker:23.0.1-dind
-  # если хотим сделать деплой по кнопке
-#  rules:
-#    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-#      when: manual
-#    - if: '$CI_COMMIT_BRANCH == "master"'
-#      when: manual
   before_script:
     - apk add openssh-client bash
     - eval $(ssh-agent -s)
@@ -102,13 +97,14 @@ deploy-backend:
     - chmod 700 ~/.ssh
     - echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
-    - until docker info; do sleep 1; done
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+
   script:
-    - docker context create sausage_remote --docker host=ssh://${DEV_USER}@${DEV_HOST}
-    - export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}"
-    - export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}"
-    - export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}"
-    - export "MONGO=${MONGO_DATA_REPORT}"
-    - docker-compose --context sausage_remote up -d --remove-orphans --force-recreate backend
+    - scp ./docker-compose.yml ${DEV_USER}@${DEV_HOST}:/home/${DEV_USER}/docker-compose.yml
+    - ssh ${DEV_USER}@${DEV_HOST}
+      "export "SPRING_DATASOURCE_URL=${PSQL_DATASOURCE}";
+       export "SPRING_DATASOURCE_USERNAME=${PSQL_USER}";
+       export "SPRING_DATASOURCE_PASSWORD=${PSQL_PASSWORD}";
+       export "MONGO_REPORT=${MONGO_DATA_REPORT}";
+       /bin/bash -s " < ./backend/backend_deploy.sh
+
       
