@@ -34,7 +34,7 @@ build-backend:
 #    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
     # Проверка запуска контейнера
 #    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
-    - docker run --rm  --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    - docker run --rm -d --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
     - docker exec sausage-backend printenv
     # Ждем пока запустится контейнер
     - sleep 15
