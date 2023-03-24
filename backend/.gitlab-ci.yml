@@ -28,11 +28,13 @@ build-backend:
       --tag $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
       .
     # Вставка секретов
-    - sed -i 's/DB-LOGIN/'"${DBLOGIN}"'/' .env
-    - sed -i 's/DB-PASS/'"${DBPASS}"'/' .env
-    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
+#    - sed -i 's/DB-LOGIN/'"${DBLOGIN}"'/' .env
+#    - sed -i 's/DB-PASS/'"${DBPASS}"'/' .env
+#    - sed -i 's/MONGO-DATA/'"${MONGO_DATA_SED}"'/' .env
     # Проверка запуска контейнера
-    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+#    - docker run --rm -d --env-file .env --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    - docker run --rm -d --name sausage-backend -p 8080:8080 $CI_REGISTRY_IMAGE/sausage-backend:$CI_COMMIT_SHA
+    - docker exec -it sausage-backend printenv
     # Ждем пока запустится контейнер
     - sleep 15
     # Скачиваем список сосисок
