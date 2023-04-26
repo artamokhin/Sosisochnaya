@@ -13,7 +13,7 @@ ExecStart=/usr/bin/java \
 -Dmyserver.bindPort='8080' \
 -Dmyserver.hostName='Sausage-store' \
 -jar '/home/jarservice/sausage-store.jar' \
---spring.datasource.url=jdbc:postgresql://***REMOVED*** \
+--spring.datasource.url=jdbc:postgresql://rc1b-dg3a3klt4rt6kk47.mdb.yandexcloud.net:6432/artamokhin1 \
 --spring.datasource.username=DBLOGIN \
 --spring.datasource.password=DBPASS \
 --spring.data.mongodb.uri=mongodb://DBLOGIN:DBPASS@rc1a-ftsq82uol4t7mcoq.mdb.yandexcloud.net:27018/artamokhin1?tls=true 
